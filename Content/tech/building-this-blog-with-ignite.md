@@ -4,6 +4,8 @@ date: 2026-09-01
 tags: swift, ignite, web
 ---
 
+# Building this blog with Ignite
+
 I built this site with [Ignite](https://github.com/twostraws/Ignite), a static site generator that lets you describe web pages in Swift using a result-builder syntax that feels a lot like SwiftUI. This first post is a placeholder — replace it with your own story of setting the site up.
 
 ## Why Ignite
