@@ -17,9 +17,9 @@ struct IgniteWebsite {
 struct PersonalBlog: Site {
     var name = "MannyC.Dev"
     var titleSuffix = " – MannyC.Dev"
-    // The /Renho-Federation path prefix must match the repo name exactly.
-    // For local previews, temporarily drop the path (links carry the prefix otherwise).
-    var url = URL(static: "https://yukisekimi.github.io/Renho-Federation")
+    // User site: the GitHub repo is named YukiseKimi.github.io, so the site
+    // serves at the domain root and root-relative links work everywhere.
+    var url = URL(static: "https://yukisekimi.github.io")
     var author = "Manny C."
     var description = "Tech learnings and life abroad."
 
