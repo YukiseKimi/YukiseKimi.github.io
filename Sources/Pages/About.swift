@@ -10,7 +10,5 @@ struct About: StaticPage {
             .font(.title1)
 
         Text("Hi, I'm Manny. I write about software engineering, and about my experience moving abroad.")
-
-        Text("You can subscribe to everything I write via the RSS feed at /feed.rss.")
     }
 }
