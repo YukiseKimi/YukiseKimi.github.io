@@ -4,8 +4,8 @@
     {
       "name": "blog-preview",
       "runtimeExecutable": "sh",
-      "runtimeArgs": ["-c", "rsync -a --delete /Users/yukisekimi/Desktop/Renho-Federation/Build/ '/private/tmp/claude-501/-Users-yukisekimi-Desktop-Ignite-ExampleSite/750d61c6-03ae-4ffa-9727-a221c163766c/scratchpad/Build/' 2>/dev/null; cd '/private/tmp/claude-501/-Users-yukisekimi-Desktop-Ignite-ExampleSite/750d61c6-03ae-4ffa-9727-a221c163766c/scratchpad/Build' && exec python3 -m http.server 8123"],
-      "port": 8123
+      "runtimeArgs": ["-c", "rsync -a --delete /Users/yukisekimi/Desktop/Renho-Federation/Build/ '/private/tmp/claude-501/-Users-yukisekimi-Desktop-Renho-Federation/7167f867-87eb-4a64-a5de-69409ea25172/scratchpad/Build/' 2>/dev/null; cd '/private/tmp/claude-501/-Users-yukisekimi-Desktop-Renho-Federation/7167f867-87eb-4a64-a5de-69409ea25172/scratchpad/Build' && exec python3 -m http.server 8124"],
+      "port": 8124
     }
   ]
 }

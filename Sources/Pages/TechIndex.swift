@@ -16,6 +16,7 @@ struct TechIndex: StaticPage {
 
         ForEach(articles.typed("tech")) { article in
             ArticlePreview(for: article)
+                .articlePreviewStyle(DatedPreviewStyle())
                 .margin(.bottom, .medium)
         }
     }

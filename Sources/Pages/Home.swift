@@ -18,6 +18,7 @@ struct Home: StaticPage {
 
         ForEach(articles.all.prefix(5)) { article in
             ArticlePreview(for: article)
+                .articlePreviewStyle(DatedPreviewStyle())
                 .margin(.bottom, .medium)
         }
     }

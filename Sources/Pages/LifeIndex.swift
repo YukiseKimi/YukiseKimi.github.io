@@ -16,6 +16,7 @@ struct LifeIndex: StaticPage {
 
         ForEach(articles.typed("life")) { article in
             ArticlePreview(for: article)
+                .articlePreviewStyle(DatedPreviewStyle())
                 .margin(.bottom, .medium)
         }
     }
