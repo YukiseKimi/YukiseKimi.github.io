@@ -4,7 +4,7 @@ import Ignite
 struct MainLayout: Layout {
     var body: some Document {
         Body {
-            NavigationBar(logo: "MannyC.Dev") {
+            NavigationBar(logo: "Manny Chau") {
                 Link("Home", target: "/")
                 Link("Tech", target: "/tech")
                 Link("Life", target: "/life")

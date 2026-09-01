@@ -10,7 +10,7 @@ struct TechIndex: StaticPage {
         Text("Tech")
             .font(.title1)
 
-        Text("Posts written to solidify what I'm learning.")
+        Text("About my experience using technologies")
             .font(.lead)
             .margin(.bottom, .large)
 

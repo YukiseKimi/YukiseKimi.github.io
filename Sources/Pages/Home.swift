@@ -6,10 +6,10 @@ struct Home: StaticPage {
     var title = "Home"
 
     var body: some HTML {
-        Text("MannyC.Dev")
+        Text("Manny Chau")
             .font(.title1)
 
-        Text("Writing about software to solidify what I learn, and about building a life in a new country.")
+        Text("Writing about software engineering, and about building a life in a new country.")
             .font(.lead)
             .margin(.bottom, .large)
 

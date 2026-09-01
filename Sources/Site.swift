@@ -15,8 +15,8 @@ struct IgniteWebsite {
 }
 
 struct PersonalBlog: Site {
-    var name = "MannyC.Dev"
-    var titleSuffix = " – MannyC.Dev"
+    var name = "Manny Chau"
+    var titleSuffix = " – MannyCodes"
     // Custom domain, served at the root so root-relative links work everywhere.
     // Assets/CNAME tells GitHub Pages to keep serving this domain.
     var url = URL(static: "https://mannychau.com")
