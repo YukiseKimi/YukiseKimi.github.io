@@ -9,7 +9,7 @@ struct Home: StaticPage {
         Text("Manny.Dev")
             .font(.title1)
 
-        Text("Writing about Tech & Personal development")
+        Text("Writing from abroad about Tech & Personal development")
             .font(.lead)
             .margin(.bottom, .large)
 
