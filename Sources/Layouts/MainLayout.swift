@@ -3,8 +3,12 @@ import Ignite
 
 struct MainLayout: Layout {
     var body: some Document {
+        Head {
+            MetaLink(href: "/css/custom.css", rel: .stylesheet)
+        }
+
         Body {
-            NavigationBar(logo: "Manny Chau") {
+            NavigationBar(logo: "Manny.Dev") {
                 Link("Home", target: "/")
                 Link("Tech", target: "/tech")
                 Link("Life", target: "/life")
@@ -12,9 +16,13 @@ struct MainLayout: Layout {
                 Link("About", target: "/about")
             }
 
-            content
+            Section {
+                content
+            }
+            .class("reading-column")
 
-            IgniteFooter()
+            SiteFooter()
+                .class("reading-column")
         }
     }
 }

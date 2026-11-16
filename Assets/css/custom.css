@@ -1,0 +1,58 @@
+/* Site-wide styling on top of Ignite's Bootstrap themes.
+   Colors use Bootstrap variables so light and dark themes both work. */
+
+/* Reading column: content is centred and capped at 800px. */
+.reading-column {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Post preview cards: thin border, gentle lift on hover. */
+.post-card {
+    border: 1px solid var(--bs-border-color);
+    border-radius: 0.5rem;
+    padding: 1.25rem 1.5rem;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.post-card:hover {
+    box-shadow: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+}
+
+/* Card title: body text color, no underline; accent color on hover. */
+.post-card-title a {
+    color: var(--bs-body-color);
+    text-decoration: none;
+}
+
+.post-card-title a:hover {
+    color: var(--bs-link-hover-color);
+}
+
+/* Plain #hashtag tags. */
+.post-tags a {
+    color: var(--bs-secondary-color);
+    text-decoration: none;
+    margin-right: 0.75rem;
+}
+
+.post-tags a:hover {
+    color: var(--bs-link-hover-color);
+}
+
+/* Footer social icons. */
+.footer-icons a {
+    color: var(--bs-secondary-color);
+    font-size: 1.25rem;
+    margin-left: 1rem;
+}
+
+.footer-icons a:hover {
+    color: var(--bs-body-color);
+}
+
+.site-footer {
+    border-top: 1px solid var(--bs-border-color);
+}

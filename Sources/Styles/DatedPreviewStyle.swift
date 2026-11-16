@@ -1,34 +1,41 @@
 import Foundation
 import Ignite
 
-/// The default preview card omits dates, which makes a list of posts hard to
-/// read chronologically. This adds the publication date under the title.
+/// A soft card for post lists: title, date and reading time, summary, and
+/// plain #hashtag tags. Border and hover lift come from `.post-card` in
+/// Assets/css/custom.css.
 struct DatedPreviewStyle: ArticlePreviewStyle {
     func body(content article: Article) -> any HTML {
-        Card(imageName: article.image) {
-            Text(article.description)
-                .margin(.bottom, .none)
-        } header: {
+        Section {
             Text {
                 Link(article)
             }
             .font(.title2)
+            .class("post-card-title")
             .margin(.bottom, .none)
 
             Text {
                 Time(article.date.formatted(date: .abbreviated, time: .omitted), dateTime: article.date)
+                " · \(article.estimatedReadingMinutes) min read"
             }
             .font(.small)
             .foregroundStyle(.secondary)
-        } footer: {
-            if let tagLinks = article.tagLinks() {
+            .margin(.bottom, .small)
+
+            Text(article.description)
+                .margin(.bottom, .small)
+
+            if let tags = article.tags, !tags.isEmpty {
                 Section {
-                    ForEach(tagLinks) { link in
-                        link
+                    ForEach(tags) { tag in
+                        Link("#\(tag)", target: "/tags/\(tag.convertedToSlug())")
+                            .relationship(.tag)
                     }
                 }
-                .style(.marginTop, "-5px")
+                .class("post-tags", "small")
+                .margin(.bottom, .none)
             }
         }
+        .class("post-card")
     }
 }
