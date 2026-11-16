@@ -37,9 +37,41 @@ struct SiteTests {
             let page = "\(post.type)/\(post.slug)/index.html"
             #expect(
                 FileManager.default.fileExists(atPath: BuiltSite.root.appendingPathComponent(page).path),
-                "Missing page for Content/\(post.type)/\(post.slug).md"
+                "Missing page for \(post.path)"
             )
         }
+    }
+
+    @Test("Drafts (published: false) have no page")
+    func draftsAreHidden() throws {
+        for post in try BuiltSite.posts() where !post.isPublished {
+            let page = "\(post.type)/\(post.slug)/index.html"
+            #expect(
+                !FileManager.default.fileExists(atPath: BuiltSite.root.appendingPathComponent(page).path),
+                "Draft \(post.path) was published"
+            )
+        }
+    }
+
+    @Test("Every post is in Content/tech/ or Content/life/")
+    func postsAreInKnownCategories() throws {
+        for post in try BuiltSite.posts() {
+            #expect(["tech", "life"].contains(post.type), "\(post.path) is not in tech/ or life/")
+        }
+    }
+
+    @Test("No published post contains PLACEHOLDER text")
+    func noPlaceholders() throws {
+        for post in try BuiltSite.publishedPosts() {
+            #expect(!post.text.contains("PLACEHOLDER"), "\(post.path) still contains PLACEHOLDER")
+        }
+    }
+
+    @Test("Starter template files are not published", arguments: [
+        "Assets.txt", "images/Images.txt",
+    ])
+    func noStarterFiles(_ path: String) {
+        #expect(!FileManager.default.fileExists(atPath: BuiltSite.root.appendingPathComponent(path).path))
     }
 
     @Test("Every page title ends with '| Manny.Dev'")

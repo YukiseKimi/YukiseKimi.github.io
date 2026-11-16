@@ -35,16 +35,9 @@ jobs:
       - name: Build site
         run: swift run
 
+      # Also fails if a published post still contains PLACEHOLDER text.
       - name: Run tests
         run: swift test
-
-      - name: Warn about placeholder text in published posts
-        run: |
-          for file in $(grep -rl "PLACEHOLDER" Content --include="*.md"); do
-            if ! grep -q "^published: false" "$file"; then
-              echo "::warning file=$file::Published post still contains PLACEHOLDER text"
-            fi
-          done
 
       - name: Upload site for deployment
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'

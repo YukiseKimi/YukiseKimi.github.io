@@ -58,17 +58,46 @@ enum BuiltSite {
         return html.matches(of: pattern).map { String($0.output.1) }
     }
 
-    /// Markdown posts in Content/, excluding ones marked `published: false`.
-    static func publishedPosts() throws -> [(type: String, slug: String, text: String)] {
+    struct Post {
+        /// Folder under Content/ ("tech", "life"), or "" for a file directly in Content/.
+        var type: String
+        var slug: String
+        var text: String
+        var isPublished: Bool { BuiltSite.isPublished(text) }
+        var path: String { type.isEmpty ? "Content/\(slug).md" : "Content/\(type)/\(slug).md" }
+    }
+
+    /// Every Markdown post in Content/, drafts included.
+    static func posts() throws -> [Post] {
         let enumerator = FileManager.default.enumerator(at: contentRoot, includingPropertiesForKeys: nil)
-        var posts: [(String, String, String)] = []
+        var posts: [Post] = []
         while let url = enumerator?.nextObject() as? URL {
             guard url.pathExtension == "md" else { continue }
+            let folder = url.deletingLastPathComponent().standardizedFileURL
+            let type = folder == contentRoot.standardizedFileURL ? "" : folder.lastPathComponent
             let text = try String(contentsOf: url, encoding: .utf8)
-            if text.contains("published: false") { continue }
-            let type = url.deletingLastPathComponent().lastPathComponent
-            posts.append((type, url.deletingPathExtension().lastPathComponent, text))
+            posts.append(Post(type: type, slug: url.deletingPathExtension().lastPathComponent, text: text))
         }
-        return posts
+        return posts.sorted { $0.path < $1.path }
+    }
+
+    static func publishedPosts() throws -> [Post] {
+        try posts().filter(\.isPublished)
+    }
+
+    /// Mirrors Ignite's rule: only the front matter counts, and only an exact
+    /// `false` hides a post (Ignite uses `Bool(value) ?? true`, so `False` publishes).
+    static func isPublished(_ markdown: String) -> Bool {
+        let lines = markdown.split(separator: "\n", omittingEmptySubsequences: false)
+        guard lines.first?.trimmingCharacters(in: .whitespaces) == "---" else { return true }
+        for line in lines.dropFirst() {
+            if line.trimmingCharacters(in: .whitespaces) == "---" { break }
+            let parts = line.split(separator: ":", maxSplits: 1)
+            guard parts.count == 2,
+                  parts[0].trimmingCharacters(in: .whitespaces) == "published" else { continue }
+            let value = parts[1].trimmingCharacters(in: .whitespaces)
+            return Bool(value) ?? true
+        }
+        return true
     }
 }
