@@ -9,7 +9,9 @@ struct IgniteWebsite {
         do {
             try await site.publish()
         } catch {
-            print(error.localizedDescription)
+            // Exit non-zero so CI fails instead of deploying a broken site.
+            FileHandle.standardError.write(Data("Publish failed: \(error.localizedDescription)\n".utf8))
+            exit(1)
         }
     }
 }

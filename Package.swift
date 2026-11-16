@@ -13,5 +13,8 @@ let package = Package(
         .executableTarget(
             name: "PersonalBlog",
             dependencies: ["Ignite"]),
+        // Checks the generated site in Build/. Run `swift run` first.
+        .testTarget(
+            name: "SiteTests"),
     ]
 )
