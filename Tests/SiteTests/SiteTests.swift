@@ -84,4 +84,18 @@ struct SiteTests {
         }
         #expect(broken.isEmpty, "Broken links:\n\(broken.joined(separator: "\n"))")
     }
+
+    @Test("Dates use the 'Sep 1, 2026' format on every page")
+    func dateFormat() throws {
+        // Guards against locale-dependent formatting: Linux defaults to "1 Sep 2026".
+        var checked = 0
+        for page in BuiltSite.htmlPages() {
+            for match in try BuiltSite.read(page).matches(of: #/<time datetime="[^"]*">([^<]*)</time>/#) {
+                let text = String(match.output.1)
+                #expect(text.wholeMatch(of: #/[A-Z][a-z]{2} \d{1,2}, \d{4}/#) != nil, "\(page) shows date '\(text)'")
+                checked += 1
+            }
+        }
+        #expect(checked > 0, "No <time> elements found")
+    }
 }

@@ -17,11 +17,11 @@ struct BlogPost: ArticlePage {
 
         Text {
             "Posted "
-            Time(article.date.formatted(date: .abbreviated, time: .omitted), dateTime: article.date)
+            Time(article.date.postDateString, dateTime: article.date)
 
             if let updatedDate {
                 " • Updated "
-                Time(updatedDate.formatted(date: .abbreviated, time: .omitted), dateTime: updatedDate)
+                Time(updatedDate.postDateString, dateTime: updatedDate)
             }
 
             " • \(article.estimatedReadingMinutes) min read"
