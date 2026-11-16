@@ -1,0 +1,40 @@
+name: External links
+
+# Checks links to other websites. Runs weekly rather than on every push,
+# because other sites going down shouldn't block deploys.
+on:
+  schedule:
+    - cron: "0 6 * * 1"  # Mondays 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache Swift packages and build products
+        uses: actions/cache@v4
+        with:
+          path: .build
+          key: spm-${{ runner.os }}-${{ hashFiles('Package.resolved') }}
+          restore-keys: spm-${{ runner.os }}-
+
+      - name: Build site
+        run: swift run
+
+      # Internal links are covered by `swift test`; this only checks http(s) links.
+      # 999 is LinkedIn's response to automated requests, 429 is rate limiting.
+      - name: Check external links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --no-progress
+            --scheme https --scheme http
+            --exclude '^https?://(www\.)?mannychau\.com'
+            --accept '200..=299,429,999'
+            'Build/**/*.html'
+          fail: true
