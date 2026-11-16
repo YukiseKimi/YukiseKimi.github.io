@@ -2,6 +2,7 @@
 title: Building this blog with Ignite
 date: 2026-09-01
 tags: swift, ignite, web
+published: false
 ---
 
 # Building this blog with Ignite

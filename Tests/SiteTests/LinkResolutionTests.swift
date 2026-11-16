@@ -25,6 +25,14 @@ struct LinkResolutionTests {
         #expect(!BuiltSite.resolves("/images/"))  // directory without index.html
     }
 
+    @Test func readsPublishedFlagLikeIgnite() {
+        #expect(!BuiltSite.isPublished("---\ntitle: A\npublished: false\n---\nBody"))
+        #expect(!BuiltSite.isPublished("---\npublished:false\n---\n"))
+        #expect(BuiltSite.isPublished("---\ntitle: A\n---\nThis post mentions published: false."))
+        #expect(BuiltSite.isPublished("---\npublished: False\n---\n"))  // Ignite publishes this too
+        #expect(BuiltSite.isPublished("No front matter"))
+    }
+
     @Test func extractsHrefAndSrc() {
         let html = #"<a href="/a/">x</a><img src="/b.png"><link href="https://x.com">"#
         #expect(BuiltSite.links(in: html) == ["/a/", "/b.png", "https://x.com"])
