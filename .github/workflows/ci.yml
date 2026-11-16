@@ -49,6 +49,23 @@ jobs:
         with:
           path: Build
 
+  # TEMPORARY: checks whether the site builds identically on Linux.
+  # Remove once the comparison is done.
+  linux-trial:
+    name: Linux trial build
+    runs-on: ubuntu-latest
+    container: swift:6.4-noble
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build site
+        run: swift run
+      - name: Run tests
+        run: swift test
+      - uses: actions/upload-artifact@v7
+        with:
+          name: site-linux
+          path: Build
+
   deploy:
     name: Deploy to GitHub Pages
     needs: test
