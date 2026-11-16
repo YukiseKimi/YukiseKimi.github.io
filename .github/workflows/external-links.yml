@@ -47,12 +47,15 @@ jobs:
           path: Build
 
       # Internal links are covered by `swift test`; this only checks http(s) links.
+      # --root-dir lets lychee resolve root-relative links like /tech/ in the
+      # local files; without it every one is reported as an error.
       # 999 is LinkedIn's response to automated requests, 429 is rate limiting.
       - name: Check external links
         uses: lycheeverse/lychee-action@v2
         with:
           args: >-
             --no-progress
+            --root-dir ${{ github.workspace }}/Build
             --scheme https --scheme http
             --exclude '^https?://(www\.)?mannychau\.com'
             --accept '200..=299,429,999'
