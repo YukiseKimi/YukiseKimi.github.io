@@ -15,7 +15,7 @@ struct DatedPreviewStyle: ArticlePreviewStyle {
             .margin(.bottom, .none)
 
             Text {
-                Time(article.date.formatted(date: .abbreviated, time: .omitted), dateTime: article.date)
+                Time(article.date.postDateString, dateTime: article.date)
                 " · \(article.estimatedReadingMinutes) min read"
             }
             .font(.small)
