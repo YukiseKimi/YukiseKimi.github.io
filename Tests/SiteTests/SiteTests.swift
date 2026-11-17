@@ -93,6 +93,21 @@ struct SiteTests {
         }
     }
 
+    @Test("Social links open in a new tab", arguments: [
+        "https://github.com/YukiseKimi",
+        "https://www.linkedin.com/in/mannyc25/",
+    ])
+    func socialLinksOpenInNewTab(_ url: String) throws {
+        for page in BuiltSite.htmlPages() {
+            let html = try BuiltSite.read(page)
+            let anchors = html.matches(of: #/<a [^>]*>/#).map(\.output).filter { $0.contains(#"href="\#(url)""#) }
+            #expect(!anchors.isEmpty, "\(page) has no link to \(url)")
+            for anchor in anchors {
+                #expect(anchor.contains(#"target="_blank""#), "\(page): \(anchor)")
+            }
+        }
+    }
+
     @Test("No broken internal links")
     func internalLinks() throws {
         var broken: [String] = []
