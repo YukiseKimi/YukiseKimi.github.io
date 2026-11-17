@@ -22,8 +22,10 @@ struct SiteFooter: HTML {
             Section {
                 Link(Image(systemName: "github", description: "GitHub"),
                      target: "https://github.com/YukiseKimi")
+                    .target(.newWindow)
                 Link(Image(systemName: "linkedin", description: "LinkedIn"),
                      target: "https://www.linkedin.com/in/mannyc25/")
+                    .target(.newWindow)
             }
             .class("footer-icons")
         }
