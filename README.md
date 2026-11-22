@@ -46,6 +46,45 @@ and in the page description, so make it a good one.
 
 The filename becomes the URL: `Content/life/first-6-months-in-lithuania.md` is published at `/life/first-6-months-in-lithuania/`.
 
+### Importing from Obsidian
+
+`Scripts/import-obsidian.py` converts an Obsidian note into a post:
+
+```bash
+Scripts/import-obsidian.py "~/Vault/My Note.md" --category tech --vault ~/Vault
+```
+
+It writes `published: false` unless you pass `--publish`, so an import is
+never live until you say so. Use `--dry-run` to see the result without
+writing anything.
+
+It exists because four Obsidian habits do not survive the trip:
+
+| Obsidian | Problem | Result |
+|---|---|---|
+| `tags:` as a block list | Ignite keeps only `key: value` lines, so the list is skipped and the post gets **no tags at all** | rewritten to `tags: a, b, c` |
+| `[[Note]]` | not Markdown; renders literally | resolved against `Content/`, or flattened to plain text with a warning |
+| `![[photo.png]]` | renders literally and the file is never copied | rewritten to `![](/images/photo.png)`, image copied into `Assets/images/` |
+| `> [!note]` | becomes a quote containing a literal `[!note]` | rewritten to a bold lead-in |
+
+It also drops `aliases` and `cssclasses`, takes `date` from `created` when
+`date` is missing, and slugifies the title into the filename. Nested tags
+(`learning/swift`) become `learning-swift`. Block lists are read whether or
+not they are indented, since Obsidian indents them but hand-edited notes
+often do not.
+
+Rewriting skips fenced code blocks and inline code spans, so a post that
+documents Obsidian syntax keeps its examples intact.
+
+Values are never quoted, because Ignite only trims whitespace around them:
+`title: "x"` would keep its quotation marks in the page title. A `---` rule
+in the body is left alone — it is safe, since only the first one is treated
+as the front matter fence.
+
+Warnings go to stderr; read them. An unresolved wikilink becomes plain text,
+and a wikilink to a draft keeps its link but will 404 until that post is
+published.
+
 ## Project structure
 
 ```
@@ -56,6 +95,7 @@ Sources/
   Pages/                  Home, Tech, Life, About, Tags, and the post page
   Styles/                 Post card style and shared date formatting
 Content/                  Blog posts (Markdown)
+Scripts/                  import-obsidian.py, for importing notes from a vault
 Assets/                   Copied into the site as-is: CSS, images, favicon, CNAME
 Tests/SiteTests/          Checks on the generated site in Build/
 ```
