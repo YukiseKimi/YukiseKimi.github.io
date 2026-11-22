@@ -23,7 +23,10 @@ struct PersonalBlog: Site {
     // Assets/CNAME tells GitHub Pages to keep serving this domain.
     var url = URL(static: "https://mannychau.com")
     var author = "Manny Chau"
-    var description = "Tech learnings and life abroad."
+    // `String?`, not `String`: Ignite declares `description` as an optional
+    // with a `nil` default, and a non-optional cannot witness it — the default
+    // would win and the feed would ship an empty <description>.
+    var description: String? = "Tech learnings and life abroad."
 
     var favicon = URL(string: "/images/favicon.png")
 

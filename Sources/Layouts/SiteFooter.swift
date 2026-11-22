@@ -36,6 +36,11 @@ struct SiteFooter: HTML {
                     .target(.newWindow)
                     .relationship(.noOpener, .noReferrer)
                     .aria(.label, "LinkedIn (opens in new tab)")
+                // RSS feed: same icon-only pattern as the social links, but
+                // it stays in the same tab since it is a feed, not a site.
+                Link(Image(systemName: "rss-fill", description: "RSS"),
+                     target: "/feed.rss")
+                    .aria(.label, "RSS feed")
             }
             .class("footer-icons")
         }
