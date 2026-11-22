@@ -4,6 +4,7 @@ import Ignite
 struct Home: StaticPage {
     @Environment(\.articles) var articles
     var title = "Home"
+    var description = "Manny Chau writes from abroad about software engineering and personal development: tech learnings and notes on life in a new country."
 
     var body: some HTML {
         Text("Tech & Life Abroad")

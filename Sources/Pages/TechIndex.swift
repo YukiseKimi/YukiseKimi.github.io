@@ -4,6 +4,7 @@ import Ignite
 struct TechIndex: StaticPage {
     @Environment(\.articles) var articles
     var title = "Tech"
+    var description = "About my experience using technologies — what I built, what worked, and what I learned along the way."
     var path = "/tech"
 
     var body: some HTML {

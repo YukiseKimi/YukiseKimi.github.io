@@ -4,6 +4,7 @@ import Ignite
 struct LifeIndex: StaticPage {
     @Environment(\.articles) var articles
     var title = "Life"
+    var description = "Notes and stories from my experience moving abroad, and settling into a new country."
     var path = "/life"
 
     var body: some HTML {
