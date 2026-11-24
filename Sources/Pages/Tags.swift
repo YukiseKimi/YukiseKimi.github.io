@@ -6,8 +6,10 @@ struct Tags: TagPage {
         Text(tag.name)
             .font(.title1)
 
-        List(tag.articles) { article in
-            Link(article)
+        ForEach(tag.articles) { article in
+            ArticlePreview(for: article)
+                .articlePreviewStyle(DatedPreviewStyle())
+                .margin(.bottom, .medium)
         }
     }
 }

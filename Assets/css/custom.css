@@ -96,3 +96,58 @@
         max-width: 100%;
     }
 }
+
+/* Browse-all-posts links on the home page. */
+.browse-links {
+    display: flex;
+    gap: 1rem;
+}
+
+/* Respect users who ask for less motion: no hover lift, no transitions. */
+@media (prefers-reduced-motion: reduce) {
+    .post-card,
+    .skip-link {
+        transition: none;
+    }
+
+    .post-card:hover {
+        transform: none;
+    }
+}
+
+/* Search page: results list and empty state. */
+.search-results ul.search-results-list {
+    list-style: none;
+    padding-left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.search-results li {
+    border: 1px solid var(--bs-border-color);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+}
+
+.search-results li a {
+    color: var(--bs-body-color);
+    font-weight: 600;
+    text-decoration: none;
+    display: block;
+}
+
+.search-results li a:hover {
+    color: var(--bs-link-hover-color);
+}
+
+.search-meta {
+    display: block;
+    color: var(--bs-secondary-color);
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+}
+
+.search-empty {
+    color: var(--bs-secondary-color);
+}

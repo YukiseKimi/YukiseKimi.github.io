@@ -8,6 +8,8 @@ struct MainLayout: Layout {
         // twitter: tags. Only site-specific additions belong here.
         Head {
             MetaLink(href: "/css/custom.css", rel: .stylesheet)
+            // Privacy-friendly analytics; no cookies, no personal data.
+            Analytics(.plausible(domain: "mannychau.com"))
         }
 
         Body {
@@ -21,6 +23,7 @@ struct MainLayout: Layout {
                 Link("Tech", target: "/tech")
                 Link("Life", target: "/life")
                 Link("Tags", target: "/tags")
+                Link("Search", target: "/search")
                 Link("About", target: "/about")
             }
 

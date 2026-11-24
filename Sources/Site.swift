@@ -37,6 +37,7 @@ struct PersonalBlog: Site {
         TechIndex()
         LifeIndex()
         About()
+        Search()
     }
 
     var articlePages: [any ArticlePage] {
@@ -44,4 +45,6 @@ struct PersonalBlog: Site {
     }
 
     var tagPage = Tags()
+
+    var errorPage: NotFoundPage = NotFoundPage()
 }

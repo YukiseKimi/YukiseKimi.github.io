@@ -22,5 +22,15 @@ struct Home: StaticPage {
                 .articlePreviewStyle(DatedPreviewStyle())
                 .margin(.bottom, .medium)
         }
+
+        Text("Browse all posts")
+            .font(.title2)
+            .margin(.top, .large)
+
+        Section {
+            Link("Tech", target: "/tech")
+            Link("Life", target: "/life")
+        }
+        .class("browse-links")
     }
 }
