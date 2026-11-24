@@ -52,6 +52,18 @@ enum BuiltSite {
         return false
     }
 
+    /// Site path (e.g. "/tech/") for a page path relative to Build/.
+    static func sitePath(forPage page: String) -> String {
+        if page == "index.html" { return "/" }
+        let dir = (page as NSString).deletingLastPathComponent
+        return "/" + (dir.isEmpty ? "" : dir + "/")
+    }
+
+    /// Whether the data parses as XML.
+    static func isValidXML(_ data: Data) -> Bool {
+        (try? XMLParser(data: data).parse()) ?? false
+    }
+
     /// All href and src values in a page.
     static func links(in html: String) -> [String] {
         let pattern = #/(?:href|src)="([^"]*)"/#
@@ -64,6 +76,7 @@ enum BuiltSite {
         var slug: String
         var text: String
         var isPublished: Bool { BuiltSite.isPublished(text) }
+        var tags: [String] { BuiltSite.tags(in: text) }
         var path: String { type.isEmpty ? "Content/\(slug).md" : "Content/\(type)/\(slug).md" }
     }
 
@@ -99,5 +112,37 @@ enum BuiltSite {
             return Bool(value) ?? true
         }
         return true
+    }
+
+    /// Tags from the front matter (comma-separated), mirroring Ignite's splitAndTrim.
+    static func tags(in markdown: String) -> [String] {
+        let lines = markdown.split(separator: "\n", omittingEmptySubsequences: false)
+        guard lines.first?.trimmingCharacters(in: .whitespaces) == "---" else { return [] }
+        for line in lines.dropFirst() {
+            if line.trimmingCharacters(in: .whitespaces) == "---" { break }
+            let parts = line.split(separator: ":", maxSplits: 1)
+            guard parts.count == 2,
+                  parts[0].trimmingCharacters(in: .whitespaces) == "tags" else { continue }
+            return parts[1].split(separator: ",")
+                .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+                .filter { !$0.isEmpty }
+        }
+        return []
+    }
+
+    /// The text of a page's first `<h1>`, with HTML entities decoded.
+    ///
+    /// A tag page prints the tag's own name there, which is what the tests match
+    /// on. Deriving the name this way avoids reimplementing Ignite's slug rules:
+    /// `convertedToSlug()` dash-cases camelCase and transliterates Unicode, so a
+    /// naive lowercase-and-dash disagrees on tags such as "SwiftUI" or "Café".
+    static func heading(in html: String) -> String? {
+        guard let match = html.firstMatch(of: #/<h1[^>]*>(.*?)</h1>/#) else { return nil }
+        var text = String(match.output.1)
+        for (entity, character) in [("&lt;", "<"), ("&gt;", ">"), ("&quot;", "\""),
+                                    ("&#39;", "'"), ("&amp;", "&")] {
+            text = text.replacingOccurrences(of: entity, with: character)
+        }
+        return text.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }
