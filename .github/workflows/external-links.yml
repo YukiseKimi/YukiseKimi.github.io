@@ -10,6 +10,11 @@ on:
 permissions:
   contents: read
 
+# Only one run per branch at a time; a newer push cancels the stale check.
+concurrency:
+  group: external-links-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Build site

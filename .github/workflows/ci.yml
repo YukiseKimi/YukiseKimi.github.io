@@ -22,6 +22,7 @@ jobs:
     # queue for a long time) and builds output identical to macOS.
     runs-on: ubuntu-latest
     container: swift:6.4-noble
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v7
 
@@ -50,6 +51,7 @@ jobs:
     needs: test
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     permissions:
       pages: write
       id-token: write
