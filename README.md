@@ -92,7 +92,7 @@ Sources/
   Site.swift              Site settings (name, URL, author) and the list of pages
   Layouts/MainLayout.swift  Navbar, reading column, and footer used by every page
   Layouts/SiteFooter.swift  Footer: ©, Ignite credit, GitHub and LinkedIn links
-  Pages/                  Home, Tech, Life, About, Tags, and the post page
+  Pages/                  Home, Tech, Life, About, Search, Tags, and the post page
   Styles/                 Post card style and shared date formatting
 Content/                  Blog posts (Markdown)
 Scripts/                  import-obsidian.py, for importing notes from a vault
@@ -119,16 +119,36 @@ They check that:
 - the starter template's `Assets.txt` and `Images.txt` aren't published
 - every page uses the shared layout and has a `… | Manny.Dev` title
 - dates use the `Sep 1, 2026` format
+- the home page links to both section indexes
+- tag pages render a post card per article (matching the index pages)
 - no internal link or asset path is broken
+- the nav link for the current page is active (`aria-current="page"`) on home and static pages
+- the 404 page exists and renders the "Page Not Found" error
+- `sitemap.xml` and `feed.rss` are valid XML and list only published posts; `robots.txt` references the sitemap
+- the Plausible analytics snippet is present in pages
+- the search page embeds a valid JSON index of published posts
+
+Tag pages and the 404 page render no active nav link — the framework does not set
+`currentRenderingPath` for them, so the tests assert that explicitly.
 
 ## CI/CD
 
 Workflows live in `.github/workflows/`:
 
 - **`ci.yml`** runs on every pull request and every push to `main`. It builds the site and runs the tests. On `main`, it then deploys to GitHub Pages, but only if every test passed.
-- **`external-links.yml`** checks links to other websites every Monday. You can also start it from the Actions tab. It never blocks a deploy.
+- **`external-links.yml`** checks links to other websites every Monday. You can also start it from the Actions tab. It never blocks a deploy. Both workflows cancel a stale run in the same group.
+
+Every job has a `timeout-minutes` cap (build/test 20, deploy 10), and `.github/dependabot.yml` keeps GitHub Actions and the Swift package up to date.
 
 Builds run in a `swift:6.4-noble` container on Linux. Their output is the same as a macOS build.
+
+## Pages
+
+- **Home** (`/`) shows the five most recent posts, then links to the Tech and Life sections
+- **Search** (`/search`) filters a JSON index of published posts by title, tag, or date — no server needed
+- **Tags** (`/tags`) lists every tag with post cards, same as the index pages
+- **About** (`/about`) has a short bio, what the blog covers, and contact links
+- **404** (`404.html`) renders the "Page Not Found" error with a link home
 
 ## Hosting notes
 
