@@ -1,4 +1,9 @@
 import Foundation
+// On Linux, XMLParser lives in FoundationXML; Foundation exposes only a
+// stub typealias, so `XMLParser(data:)` does not compile without this.
+#if canImport(FoundationXML)
+import FoundationXML
+#endif
 
 /// Read-only access to the site that `swift run` generated in Build/.
 enum BuiltSite {
@@ -61,7 +66,7 @@ enum BuiltSite {
 
     /// Whether the data parses as XML.
     static func isValidXML(_ data: Data) -> Bool {
-        (try? XMLParser(data: data).parse()) ?? false
+        XMLParser(data: data).parse()
     }
 
     /// All href and src values in a page.
